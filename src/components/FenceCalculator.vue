@@ -11,20 +11,22 @@
                 label="Высота сетки (м):"
                 v-model="height"
                 :options="[
-                  { value: '1.5', text: '1.5' },
-                  { value: '1.8', text: '1.8' },
-                  { value: '2.0', text: '2.0' }
+                  { value: '1.5', text: '1.5 м' },
+                  { value: '1.8', text: '1.8 м' },
+                  { value: '2.0', text: '2.0 м' }
                 ]"
+                @update:modelValue="hideTotal"
               />
 
               <InsutCustomSelect
-                label="Толщина прутка (мм):"
+                label="Толщина сетки (мм):"
                 v-model="thickness"
                 :options="[
-                  { value: '1.6', text: '1.6' },
-                  { value: '2.2', text: '2.2' },
-                  { value: '2.5', text: '2.5' }
+                  { value: '1.6', text: '1.6 мм' },
+                  { value: '2.2', text: '2.2 мм' },
+                  { value: '2.5', text: '2.5 мм' }
                 ]"
+                @update:modelValue="hideTotal"
               />
 
               <InsutCustomSelect
@@ -34,13 +36,15 @@
                   { value: '0', text: 'Без покраски' },
                   { value: '1', text: 'С покраской' }
                 ]"
+                @update:modelValue="hideTotal"
               />
 
             <InputCustom
              label="Длина забора (м):"
              type="number"
              v-model="length"
-             min="1"
+             :min="1"
+             @update:modelValue="hideTotal"
             />
 
             <InsutCustomSelect
@@ -54,6 +58,7 @@
                   { value: '7', text: '7 м' },
                   { value: '9', text: '9 м' },
                 ]"
+                @update:modelValue="hideTotal"
               />
 
 
@@ -70,14 +75,16 @@
                   { value: '5.25', text: '5.25 м' },                  
                   { value: '7.15', text: '7.15 м' },                  
                 ]"
+                @update:modelValue="hideTotal"
               />
 
             <InputCustom
              label="Количество калиток:"
              type="number"
              v-model="gatesCount"
-             min="0" 
-             max="3"
+             :min="0" 
+             :max="3"
+             @update:modelValue="hideTotal"
             />
 
 
@@ -90,6 +97,7 @@
                   { value: '25000', text: 'Италия (25 000₽)' },              
                   { value: '30000', text: 'Германия (30 000₽)' },                
                 ]"
+                @update:modelValue="hideTotal"
               />
 
             <InsutCustomSelect
@@ -99,6 +107,7 @@
                   { value: '0', text: 'Нет' },
                   { value: '4500', text: 'Есть (4 500₽)' },                          
                 ]"
+                @update:modelValue="hideTotal"
               />
 
 
@@ -107,12 +116,15 @@
              label="Расстояние доставки (км):"
              type="number"
              v-model="deliveryDistance"
+             @update:modelValue="hideTotal"
             />
 
           </div>
         </div>
-        <button class="fence-calculator__button" @click="showTotal = true">Рассчитать</button>
-        <h2 v-if="showTotal" class="fence-calculator__total">Итоговая стоимость: {{ totalFormatted }} ₽</h2>
+        <div class="fence-calculator__actions">
+          <ButtonCustom @click="showTotal = true">Рассчитать</ButtonCustom>
+          <h2 v-if="showTotal" class="fence-calculator__total">Итоговая стоимость: {{ totalFormatted }} ₽</h2>
+        </div>
       </div>
     </div>
   </div>
@@ -124,6 +136,7 @@ import Calc from '/calculator-2.png'
 
 import InputCustom from '../ui/Input-custom.vue'
 import InsutCustomSelect from '../ui/Input-custom-selection.vue'
+import ButtonCustom from '@/ui/Button-custom.vue'
 
 // Реактивные данные
 const height = ref('1.5')
@@ -199,6 +212,10 @@ const total = computed(() => {
 const totalFormatted = computed(() => {
   return total.value.toLocaleString('ru-RU')
 })
+
+function hideTotal() {
+  showTotal.value = false
+}
 </script>
 
 <style scoped>
@@ -245,50 +262,11 @@ const totalFormatted = computed(() => {
   padding: 20px;
 }
 
-label {
-  display: block;
-  margin: 10px 0;
-  font-weight: bold;
+.fence-calculator__actions {
+  text-align: right;
+  margin-top: 24px;
 }
-
-select, input {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-select:focus, input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
 .fence-calculator__total {
-  color: var( --fence-total-bg);
-  text-align: center;
-  padding: 20px;
-  background-color: #d4edda;
-  border-radius: 8px;
-  border: 1px solid #c3e6cb;
-  margin-top: 32px;
-}
-.fence-calculator__button {
-  display: block;
-  margin: 32px auto 0 auto;
-  padding: 12px 32px;
-  font-size: 18px;
-  background: #667eea;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.fence-calculator__button:hover {
-  background: #4953b8;
+  margin-top: 18px;
 }
 </style> 

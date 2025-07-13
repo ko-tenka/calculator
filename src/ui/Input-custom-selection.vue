@@ -45,6 +45,7 @@ defineEmits(['update:modelValue']);
   border-radius: 4px;
   font-size: 16px;
   transition: border 0.2s;
+
 }
 .custom-input-select__field:focus {
   outline: none;
