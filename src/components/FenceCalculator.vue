@@ -6,80 +6,109 @@
       <div class="fence-calculator__form">
         <div class="fence-calculator__columns">
           <div class="fence-calculator__section">
-            <label>
-              Высота сетки (м):
-              <select v-model="height">
-                <option value="1.5">1.5</option>
-                <option value="1.8">1.8</option>
-                <option value="2.0">2.0</option>
-              </select>
-            </label>
-            <label>
-              Толщина прутка (мм):
-              <select v-model="thickness">
-                <option value="1.6">1.6</option>
-                <option value="2.2">2.2</option>
-                <option value="2.5">2.5</option>
-              </select>
-            </label>
-            <label>
-              Покраска:
-              <select v-model="painting">
-                <option value="0">Без покраски</option>
-                <option value="1">С покраской</option>
-              </select>
-            </label>
-            <label>
-              Длина забора (м):
-              <input type="number" v-model="length" min="1" />
-            </label>
+
+              <InsutCustomSelect
+                label="Высота сетки (м):"
+                v-model="height"
+                :options="[
+                  { value: '1.5', text: '1.5' },
+                  { value: '1.8', text: '1.8' },
+                  { value: '2.0', text: '2.0' }
+                ]"
+              />
+
+              <InsutCustomSelect
+                label="Толщина прутка (мм):"
+                v-model="thickness"
+                :options="[
+                  { value: '1.6', text: '1.6' },
+                  { value: '2.2', text: '2.2' },
+                  { value: '2.5', text: '2.5' }
+                ]"
+              />
+
+              <InsutCustomSelect
+                label="Покраска:"
+                v-model="painting"
+                :options="[
+                  { value: '0', text: 'Без покраски' },
+                  { value: '1', text: 'С покраской' }
+                ]"
+              />
+
+            <InputCustom
+             label="Длина забора (м):"
+             type="number"
+             v-model="length"
+             min="1"
+            />
+
+            <InsutCustomSelect
+                label="Откатные ворота (м)"
+                v-model="slidingGate"
+                :options="[
+                  { value: '0', text: 'Нет' },
+                  { value: '3', text: '3 м' },
+                  { value: '4', text: '4 м' },
+                  { value: '5', text: '5 м' },
+                  { value: '7', text: '7 м' },
+                  { value: '9', text: '9 м' },
+                ]"
+              />
+
+
           </div>
           <div class="fence-calculator__section">
-            <label>
-              Откатные ворота (м):
-              <select v-model="slidingGate">
-                <option value="0">Нет</option>
-                <option value="3">3 м</option>
-                <option value="4">4 м</option>
-                <option value="5">5 м</option>
-                <option value="7">7 м</option>
-                <option value="9">9 м</option>
-              </select>
-            </label>
-            <label>
-              Распашные ворота (м):
-              <select v-model="swingGate">
-                <option value="0">Нет</option>
-                <option value="3.45">3.45 м</option>
-                <option value="4.35">4.35 м</option>
-                <option value="5.25">5.25 м</option>
-                <option value="7.15">7.15 м</option>
-              </select>
-            </label>
-            <label>
-              Количество калиток:
-              <input type="number" v-model="gatesCount" min="0" max="3" />
-            </label>
-            <label>
-              Автопривод:
-              <select v-model="autodrive">
-                <option value="0">Нет</option>
-                <option value="20000">Китай (20 000₽)</option>
-                <option value="25000">Италия (25 000₽)</option>
-                <option value="30000">Германия (30 000₽)</option>
-              </select>
-            </label>
-            <label>
-              Врезной замок:
-              <select v-model="lock">
-                <option value="0">Нет</option>
-                <option value="4500">Есть (4 500₽)</option>
-              </select>
-            </label>
-            <label>
-              Расстояние доставки (км):
-              <input type="number" v-model="deliveryDistance" />
-            </label>
+
+              <InsutCustomSelect
+                label="Распашные ворота (м):"
+                v-model="swingGate"
+                :options="[
+                  { value: '0', text: 'Нет' },
+                  { value: '3.45', text: '3.45 м' },            
+                  { value: '4.35', text: '4.35 м' },              
+                  { value: '5.25', text: '5.25 м' },                  
+                  { value: '7.15', text: '7.15 м' },                  
+                ]"
+              />
+
+            <InputCustom
+             label="Количество калиток:"
+             type="number"
+             v-model="gatesCount"
+             min="0" 
+             max="3"
+            />
+
+
+            <InsutCustomSelect
+                label="Автопривод:"
+                v-model="autodrive"
+                :options="[
+                  { value: '0', text: 'Нет' },
+                  { value: '20000', text: 'Китай (20 000₽' },            
+                  { value: '25000', text: 'Италия (25 000₽)' },              
+                  { value: '30000', text: 'Германия (30 000₽)' },                
+                ]"
+              />
+
+            <InsutCustomSelect
+                label="Врезной замок:"
+                v-model="lock"
+                :options="[
+                  { value: '0', text: 'Нет' },
+                  { value: '4500', text: 'Есть (4 500₽)' },                          
+                ]"
+              />
+
+
+
+            <InputCustom
+             label="Расстояние доставки (км):"
+             type="number"
+             v-model="deliveryDistance"
+            />
+
           </div>
         </div>
         <button class="fence-calculator__button" @click="showTotal = true">Рассчитать</button>
@@ -92,6 +121,9 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Calc from '/calculator-2.png'
+
+import InputCustom from '../ui/Input-custom.vue'
+import InsutCustomSelect from '../ui/Input-custom-selection.vue'
 
 // Реактивные данные
 const height = ref('1.5')
@@ -180,7 +212,6 @@ const totalFormatted = computed(() => {
 }
 
 .fence-calculator__title {
-  color: #333;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -201,11 +232,10 @@ const totalFormatted = computed(() => {
 
 .fence-calculator__columns {
   display: flex;
-  gap: 32px;
+  gap: 1vw;
   justify-content: center;
-  background-color: #d1cdf688;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  background-color: var(--fence-columns-bg);
+  border-radius: 12px;
 }
 
 .fence-calculator__section {
@@ -213,9 +243,6 @@ const totalFormatted = computed(() => {
   min-width: 250px;
   margin-bottom: 0;
   padding: 20px;
-  /* border: 1px solid #ddd;
-  border-radius: 8px; */
-  /* background-color: none; */
 }
 
 label {
@@ -241,7 +268,7 @@ select:focus, input:focus {
 }
 
 .fence-calculator__total {
-  color: #28a745;
+  color: var( --fence-total-bg);
   text-align: center;
   padding: 20px;
   background-color: #d4edda;
